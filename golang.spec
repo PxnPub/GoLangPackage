@@ -11,7 +11,7 @@ License   : AGPLv3+ADD-PXN-V1 and BSD and Public Domain
 URL       : https://poixson.com/
 
 BuildRequires: curl wget tar
-#BuildRequires: pxn-scripts
+BuildRequires: pxn-scripts
 Requires: glibc, gcc
 Provides: GoLang = %{go_version}
 Provides: go     = %{go_version}
@@ -60,9 +60,9 @@ echo
 echo "Install.."
 # create dirs
 %{__install} -d  \
-	"%{buildroot}%{_bindir}"                \
-	"%{buildroot}%{_sysconfdir}/profile.d"  \
-	"%{buildroot}%{_datadir}"               \
+	"%{buildroot}%{_bindir}"                     \
+	"%{buildroot}%{_datadir}"                    \
+	"%{buildroot}%{_sysconfdir}/profile.d"       \
 	"%{buildroot}%{_datadir}/licenses/%{name}/"  \
 	"%{buildroot}%{_datadir}/doc/%{name}/"       \
 		|| exit 1
@@ -72,7 +72,7 @@ echo "Extracting.."
 	\tar -zx  \
 		--file="%{_topdir}/BUILD/go.tar.gz"     \
 		--directory="%{buildroot}%{_datadir}/"  \
-		|| exit 1
+			|| exit 1
 	\mv  go  gocode  || exit 1
 \popd >/dev/null
 # copy files
@@ -82,9 +82,6 @@ echo "Extracting.."
 		"profile.sh"                                      \
 		"%{buildroot}%{_sysconfdir}/profile.d/golang.sh"  \
 			|| exit 1
-	echo "chmodr.."
-	\chmodr  0755 0644  "%{buildroot}%{_datadir}/gocode/"                        || exit 1
-	\chmod   0755 -c    "%{buildroot}%{_datadir}/gocode/pkg/tool/linux_amd64/"*  || exit 1
 \popd >/dev/null
 \pushd  "%{buildroot}%{_datadir}/gocode"  >/dev/null  || exit 1
 	# license
@@ -102,6 +99,10 @@ echo "Extracting.."
 		"%{buildroot}%{_datadir}/doc/%{name}/"  \
 			|| exit 1
 \popd >/dev/null
+# chmod
+echo "chmodr.."
+\chmodr  0755 0644  "%{buildroot}%{_datadir}/gocode/"                        || exit 1
+\chmod   0755 -c    "%{buildroot}%{_datadir}/gocode/pkg/tool/linux_amd64/"*  || exit 1
 # symlinks
 \ln -svf  "%{_datadir}/gocode/bin/go"  "%{buildroot}%{_bindir}/go"  || exit 1
 
