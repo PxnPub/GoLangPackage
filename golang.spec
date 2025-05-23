@@ -63,6 +63,8 @@ echo "Install.."
 	"%{buildroot}%{_bindir}"                \
 	"%{buildroot}%{_sysconfdir}/profile.d"  \
 	"%{buildroot}%{_datadir}"               \
+	"%{buildroot}%{_datadir}/licenses/%{name}/"  \
+	"%{buildroot}%{_datadir}/doc/%{name}/"       \
 		|| exit 1
 # extract files
 echo "Extracting.."
@@ -84,7 +86,21 @@ echo "Extracting.."
 	\chmodr  0755 0644  "%{buildroot}%{_datadir}/gocode/"                        || exit 1
 	\chmod   0755 -c    "%{buildroot}%{_datadir}/gocode/pkg/tool/linux_amd64/"*  || exit 1
 \popd >/dev/null
-\pushd "%{buildroot}%{_bindir}" >/dev/null || exit 1
+\pushd  "%{buildroot}%{_datadir}/gocode"  >/dev/null  || exit 1
+	# license
+	%{__install} -m 0755  \
+		"LICENSE"                                    \
+		"PATENTS"                                    \
+		"%{buildroot}%{_datadir}/licenses/%{name}/"  \
+			|| exit 1
+	# docs
+	%{__install} -m 0755  \
+		"README.md"                             \
+		"SECURITY.md"                           \
+		"VERSION"                               \
+		"go.env"                                \
+		"%{buildroot}%{_datadir}/doc/%{name}/"  \
+			|| exit 1
 \popd >/dev/null
 # symlinks
 \ln -svf  "%{_datadir}/gocode/bin/go"  "%{buildroot}%{_bindir}/go"  || exit 1
@@ -93,12 +109,12 @@ echo "Extracting.."
 
 %files
 %defattr(0644, root, root, 0755)
-%license %{_datadir}/gocode/LICENSE
-%license %{_datadir}/gocode/PATENTS
-%doc %{_datadir}/gocode/README.md
-%doc %{_datadir}/gocode/SECURITY.md
-%doc %{_datadir}/gocode/VERSION
-%doc %{_datadir}/gocode/go.env
+%license LICENSE
+%license PATENTS
+%doc README.md
+%doc SECURITY.md
+%doc VERSION
+%doc go.env
 # bin
 %attr(0755,-,-) %{_datadir}/gocode/bin/go
 %{_bindir}/go
