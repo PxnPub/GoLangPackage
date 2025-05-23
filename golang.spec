@@ -84,10 +84,10 @@ echo "Extracting.."
 	\chmodr  0755 0644  "%{buildroot}%{_datadir}/gocode/"                        || exit 1
 	\chmod   0755 -c    "%{buildroot}%{_datadir}/gocode/pkg/tool/linux_amd64/"*  || exit 1
 \popd >/dev/null
-# symlinks
 \pushd "%{buildroot}%{_bindir}" >/dev/null || exit 1
-	%{__ln} -s  "%{_datadir}/gocode/bin/go"  "go"  || exit 1
 \popd >/dev/null
+# symlinks
+\ln -svf  "%{_datadir}/gocode/bin/go"  "%{buildroot}%{_bindir}/go"  || exit 1
 
 
 
