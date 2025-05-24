@@ -26,6 +26,7 @@ Go is an open source programming language that makes it easy to build simple, re
 
 
 
+### Build ###
 %build
 echo -e "\nBuild..\n"$( \uname -a )"\n"
 LATEST_GO_VERSION=$( \curl "https://go.dev/VERSION?m=text" 2>/dev/null | \head -n1 )
@@ -55,6 +56,7 @@ fi
 
 
 
+### Install ###
 %install
 echo -e "\nInstall..\n"
 # create dirs
@@ -82,19 +84,19 @@ echo -e "\nExtracting..\n"
 		"%{buildroot}%{_sysconfdir}/profile.d/golang.sh"  \
 			|| exit 1
 \popd >/dev/null
-\pushd  "%{buildroot}%{_datadir}/gocode"  >/dev/null  || exit 1
+\pushd  "%{buildroot}%{_datadir}/gocode/"  >/dev/null  || exit 1
 	# license
 	%{__install} -m 0755  \
-		"LICENSE"                                    \
-		"PATENTS"                                    \
+		"LICENSE"            \
+		"PATENTS"            \
 		"%{_topdir}/BUILD/"  \
 			|| exit 1
 	# docs
 	%{__install} -m 0755  \
-		"README.md"                             \
-		"SECURITY.md"                           \
-		"VERSION"                               \
-		"go.env"                                \
+		"README.md"          \
+		"SECURITY.md"        \
+		"VERSION"            \
+		"go.env"             \
 		"%{_topdir}/BUILD/"  \
 			|| exit 1
 \popd >/dev/null
@@ -115,11 +117,11 @@ echo -e "\nchmodr.."
 %doc SECURITY.md
 %doc VERSION
 %doc go.env
+# /usr/share/gocode
+%dir %{_datadir}/gocode
+%{_datadir}/gocode/*
 # bin
 %attr(0755,-,-) %{_datadir}/gocode/bin/go
 %{_bindir}/go
 # profile.d
 %attr(0755,-,-) %{_sysconfdir}/profile.d/golang.sh
-# /usr/share/gocode
-%dir %{_datadir}/gocode
-%{_datadir}/gocode/*
