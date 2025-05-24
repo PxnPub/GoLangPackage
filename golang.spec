@@ -27,22 +27,22 @@ Go is an open source programming language that makes it easy to build simple, re
 
 
 %build
-echo ; \uname -a ; echo
+echo -e "\nBuild..\n"$( \uname -a )"\n"
 LATEST_GO_VERSION=$( \curl "https://go.dev/VERSION?m=text" 2>/dev/null | \head -n1 )
 if [[ -z $LATEST_GO_VERSION ]]; then
-	echo "Failed to get latest golang version" ; exit 1
+	echo -e "\nFailed to get latest golang version\n" ; exit 1
 fi
 if [[ "$LATEST_GO_VERSION" != "go%{go_version}" ]]; then
-	echo "Invalid latest version: $LATEST_GO_VERSION  expected: go%{go_version}" ; exit 1
+	echo -e "\nInvalid latest version: $LATEST_GO_VERSION  expected: go%{go_version}\n" ; exit 1
 fi
 if [[ "$LATEST_GO_VERSION" != "go"* ]]; then
-	echo "Invalid result getting latest golang version: $LATEST_GO_VERSION" ; exit 1
+	echo -e "\nInvalid result getting latest golang version: $LATEST_GO_VERSION\n" ; exit 1
 fi
 echo -e "\nGoLang version: %{go_version}\n"
 if [[ -f "%{_topdir}/../go%{go_version}.linux-amd64.tar.gz" ]]; then
-	echo -n "Found existing package: "
+	echo -e "\nFound existing package\n"
 else
-	echo "Downloading package.."
+	echo -e "\nDownloading package..\n"
 	\wget -O  \
 		"%{_topdir}/../go%{go_version}.linux-amd64.tar.gz"      \
 		"https://go.dev/dl/go%{go_version}.linux-amd64.tar.gz"  \
@@ -56,8 +56,7 @@ fi
 
 
 %install
-echo
-echo "Install.."
+echo -e "\nInstall..\n"
 # create dirs
 %{__install} -d  \
 	"%{buildroot}%{_bindir}"                     \
@@ -67,7 +66,7 @@ echo "Install.."
 	"%{buildroot}%{_datadir}/doc/%{name}/"       \
 		|| exit 1
 # extract files
-echo "Extracting.."
+echo -e "\nExtracting..\n"
 \pushd "%{buildroot}%{_datadir}/" >/dev/null || exit 1
 	\tar -zx  \
 		--file="%{_topdir}/BUILD/go.tar.gz"     \
@@ -100,7 +99,7 @@ echo "Extracting.."
 			|| exit 1
 \popd >/dev/null
 # chmod
-echo "chmodr.."
+echo -e "\nchmodr.."
 \chmodr  0755 0644  "%{buildroot}%{_datadir}/gocode/"                        || exit 1
 \chmod   0755 -c    "%{buildroot}%{_datadir}/gocode/pkg/tool/linux_amd64/"*  || exit 1
 # symlinks
