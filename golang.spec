@@ -88,7 +88,7 @@ echo "Extracting.."
 	%{__install} -m 0755  \
 		"LICENSE"                                    \
 		"PATENTS"                                    \
-		"%{buildroot}%{_datadir}/licenses/%{name}/"  \
+		"%{_topdir}/BUILD/"  \
 			|| exit 1
 	# docs
 	%{__install} -m 0755  \
@@ -96,7 +96,7 @@ echo "Extracting.."
 		"SECURITY.md"                           \
 		"VERSION"                               \
 		"go.env"                                \
-		"%{buildroot}%{_datadir}/doc/%{name}/"  \
+		"%{_topdir}/BUILD/"  \
 			|| exit 1
 \popd >/dev/null
 # chmod
