@@ -121,7 +121,25 @@ echo -e "\nchmodr.."
 %dir %{_datadir}/gocode
 %{_datadir}/gocode/*
 # bin
-%attr(0755,-,-) %{_datadir}/gocode/bin/go
 %{_bindir}/go
+%attr(0755,-,-) %{_datadir}/gocode/bin/go
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/addr2line
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/asm
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/buildid
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/cgo
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/compile
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/covdata
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/cover
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/doc
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/fix
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/link
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/nm
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/objdump
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/pack
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/pprof
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/preprofile
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/test2json
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/trace
+%attr(0755,-,-) %{_datadir}/gocode/pkg/tool/linux_amd64/vet
 # profile.d
 %attr(0755,-,-) %{_sysconfdir}/profile.d/golang.sh
